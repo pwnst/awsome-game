@@ -25,9 +25,9 @@ public class Camera {
 
     private long lastTimeUpdated;
 
-    private Map map;
+    private GameMap map;
 
-    public Camera(Map map, Graphics2D backgroundGraphics) {
+    public Camera(GameMap map, Graphics2D backgroundGraphics) {
         this.lastTimeUpdated = System.nanoTime();
         this.backgroundGraphics = backgroundGraphics;
         this.map = map;
@@ -46,7 +46,13 @@ public class Camera {
     }
 
     public void draw() {
+        Integer[][] map = this.map.getMap();
 
+        for (int i = x; i < frameWidth; i = i + tileSize) {
+            for (int j = y; j < frameHeight; j++) {
+
+            }
+        }
     }
 
     public void moveX(int v) {
