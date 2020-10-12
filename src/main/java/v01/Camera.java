@@ -50,7 +50,7 @@ public class Camera {
 
         for (int i = x; i < frameWidth; i = i + tileSize) {
             for (int j = y; j < frameHeight; j++) {
-
+//                this.map.draw(backgroundGraphics, );
             }
         }
     }
