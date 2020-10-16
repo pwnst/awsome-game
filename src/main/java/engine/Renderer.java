@@ -40,20 +40,37 @@ public class Renderer {
         int newImageWidth = image.getWidth();
         int newImageHeight = image.getHeight();
 
-        if (image.getWidth() + offX > pixelWidth) {
-            newImageWidth = newImageWidth - (newImageWidth + offX - pixelWidth);
+        if (offX < -newImageWidth) {
+            return;
         }
 
-        if (image.getHeight() + offY > pixelHieght) {
-            newImageHeight = newImageHeight - (newImageHeight + offY - pixelHieght);
+        if (offX >= pixelWidth) {
+            return;
+        }
+
+        if (offY < -newImageHeight) {
+            return;
+        }
+
+        if (offX >= pixelHieght) {
+            return;
+        }
+        
+        if (offY < 0) {
+            newY -= offY;
         }
 
         if (offX < 0) {
             newX -= offX;
         }
 
-        if (offY < 0) {
-            newY -= offY;
+
+        if (newImageWidth + offX >= pixelWidth) {
+            newImageWidth = newImageWidth - (newImageWidth + offX - pixelWidth);
+        }
+
+        if (newImageHeight + offY >= pixelHieght) {
+            newImageHeight = newImageHeight - (newImageHeight + offY - pixelHieght);
         }
 
         for (int x = newX; x < newImageWidth; x++) {
