@@ -59,6 +59,7 @@ public class Input implements KeyListener, MouseListener, MouseMotionListener, M
     }
 
     public void update() {
+        scroll = 0;
         System.arraycopy(keys, 0, lastKeys, 0, NUM_KEYS);
         System.arraycopy(buttons, 0, lastButtons, 0, NUM_BUTTONS);
     }
