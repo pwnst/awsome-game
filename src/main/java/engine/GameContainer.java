@@ -15,7 +15,7 @@ public class GameContainer implements Runnable {
     private boolean isRunning = false;
     private int width = 320;
     private int height = 240;
-    private int scale = 4;
+    private int scale = 2;
     private String title = "TTT";
 
     private final double UPDATE_CAP = 1.0 / 60.0;

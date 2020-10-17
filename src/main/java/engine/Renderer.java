@@ -28,9 +28,6 @@ public class Renderer {
         if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHieght || value == 0xffff00ff) {
             return;
         }
-
-//        System.out.println("X is " + x);
-
         pixels[y * pixelWidth + x] = value;
     }
 
@@ -52,7 +49,7 @@ public class Renderer {
             return;
         }
 
-        if (offX >= pixelHieght) {
+        if (offY >= pixelHieght) {
             return;
         }
         
