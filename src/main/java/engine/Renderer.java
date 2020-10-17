@@ -1,6 +1,7 @@
 package engine;
 
 import gfx.Image;
+import gfx.ImageTile;
 
 import java.awt.image.DataBufferInt;
 
@@ -32,12 +33,9 @@ public class Renderer {
     }
 
     public void drawImage(Image image, int offX, int offY) {
-        int newX = 0;
-        int newY = 0;
-        int newImageWidth = image.getWidth();
-        int newImageHeight = image.getHeight();
 
-        if (offX < -newImageWidth) {
+        // don't render
+        if (offX < -image.getWidth()) {
             return;
         }
 
@@ -45,14 +43,21 @@ public class Renderer {
             return;
         }
 
-        if (offY < -newImageHeight) {
+        if (offY < -image.getHeight()) {
             return;
         }
 
         if (offY >= pixelHieght) {
             return;
         }
-        
+
+        int newX = 0;
+        int newY = 0;
+        int newImageWidth = image.getWidth();
+        int newImageHeight = image.getHeight();
+
+
+        // clipping
         if (offY < 0) {
             newY -= offY;
         }
@@ -73,6 +78,60 @@ public class Renderer {
         for (int x = newX; x < newImageWidth; x++) {
             for (int y = newY; y < newImageHeight; y++) {
                 setPixel(x + offX, y + offY, image.getPixels()[y * image.getWidth() + x]);
+            }
+        }
+    }
+
+    public void drawImageTile(ImageTile image, int offX, int offY, int tileX, int tileY) {
+
+        // don't render
+        if (offX < -image.getTileWidth()) {
+            return;
+        }
+
+        if (offX >= pixelWidth) {
+            return;
+        }
+
+        if (offY < -image.getTileHeight()) {
+            return;
+        }
+
+        if (offY >= pixelHieght) {
+            return;
+        }
+
+        int newX = 0;
+        int newY = 0;
+        int newImageWidth = image.getTileWidth();
+        int newImageHeight = image.getTileHeight();
+
+
+        // clipping
+        if (offY < 0) {
+            newY -= offY;
+        }
+
+        if (offX < 0) {
+            newX -= offX;
+        }
+
+
+        if (newImageWidth + offX >= pixelWidth) {
+            newImageWidth = newImageWidth - (newImageWidth + offX - pixelWidth);
+        }
+
+        if (newImageHeight + offY >= pixelHieght) {
+            newImageHeight = newImageHeight - (newImageHeight + offY - pixelHieght);
+        }
+
+        for (int x = newX; x < newImageWidth; x++) {
+            for (int y = newY; y < newImageHeight; y++) {
+                setPixel(
+                        x + offX,
+                        y + offY,
+                        image.getPixels()[(y + tileY * image.getTileHeight()) * image.getWidth() + (x + tileX * image.getTileWidth())]
+                );
             }
         }
     }

@@ -1,11 +1,13 @@
 package gfx;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 
+@NoArgsConstructor
 @Data
 public class Image {
 
