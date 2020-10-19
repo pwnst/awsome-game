@@ -3,6 +3,8 @@ package engine;
 import lombok.Data;
 import lombok.SneakyThrows;
 
+import java.awt.*;
+
 @Data
 public class GameContainer implements Runnable {
 
@@ -50,6 +52,7 @@ public class GameContainer implements Runnable {
 
         double frameTime = 0;
         int frames = 0;
+        int fps = 0;
 
         while (isRunning) {
             render = false;
@@ -68,8 +71,8 @@ public class GameContainer implements Runnable {
                 input.update();
 
                 if (frameTime > 1.0) {
-                    System.out.println("FPS: " + frames);
                     frameTime = 0;
+                    fps = frames;
                     frames = 0;
                 }
             }
@@ -77,6 +80,7 @@ public class GameContainer implements Runnable {
             if (render) {
                 renderer.clear();
                 game.render(this, renderer);
+                renderer.drawText("FPS: " + fps, 5, 5, 0xffffffff);
                 window.update();
                 frames++;
             } else {

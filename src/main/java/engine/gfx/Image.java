@@ -1,4 +1,4 @@
-package gfx;
+package engine.gfx;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +19,7 @@ public class Image {
 
     @SneakyThrows
     public Image(String path) {
+
         BufferedImage image = ImageIO.read(Image.class.getResourceAsStream(path));
 
         width = image.getWidth();

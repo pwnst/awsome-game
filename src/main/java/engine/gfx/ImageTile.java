@@ -1,4 +1,4 @@
-package gfx;
+package engine.gfx;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
