@@ -14,25 +14,47 @@ public class Renderer {
 
     private int[] pixels;
 
+    private int[] zBuffer;
+
+    private int zDepth = 0;
+
     private Font font = Font.FONT;
 
     public Renderer(GameContainer gc) {
         this.pixelWidth = gc.getWidth();
         this.pixelHieght = gc.getHeight();
         pixels = ((DataBufferInt) gc.getWindow().getImage().getRaster().getDataBuffer()).getData();
+        zBuffer = new int[pixels.length];
     }
 
     public void clear() {
         for (int i = 0; i < pixels.length; i++) {
             pixels[i] = 0;
+            zBuffer[i] = 0;
         }
     }
 
     public void setPixel(int x, int y, int value) {
-        if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHieght || ((value >> 24) & 0xff) == 0) {
+        int alpha = (value >> 24) & 0xff;
+        if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHieght || alpha == 0) {
             return;
         }
-        pixels[y * pixelWidth + x] = value;
+
+        if (zBuffer[y * pixelWidth + x] > zDepth) {
+            return;
+        }
+        if (alpha == 255) {
+            pixels[y * pixelWidth + x] = value;
+        } else {
+            int pixelColor = pixels[y * pixelWidth + x];
+
+            int newRed = (pixelColor >> 16) & 0xff - (int) (((pixelColor >> 16) & 0xff - (value >> 16) & 0xff) * (alpha / 255f));
+            int newGreen = (pixelColor >> 8) & 0xff - (int) (((pixelColor >> 8) & 0xff - (value >> 8) & 0xff) * (alpha / 255f));
+            int newBlue = (pixelColor & 0xff) - (int) (((pixelColor & 0xff) - (value & 0xff) * (alpha / 255f)));
+
+            pixels[y * pixelWidth + x] = (255 << 24 | newRed << 16 | newGreen << 8 | newBlue);
+        }
+
     }
     public void drawText(String text, int offX, int offY, int color) {
         Image fontImage = font.getFontImage();

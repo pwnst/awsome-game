@@ -30,7 +30,5 @@ public class Font {
                 unicodeIdx++;
             }
         }
-
-        System.out.println("s");
     }
 }
