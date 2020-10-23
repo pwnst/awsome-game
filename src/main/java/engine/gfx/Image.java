@@ -12,10 +12,9 @@ import java.awt.image.BufferedImage;
 public class Image {
 
     private int width;
-
     private int height;
-
     private int[] pixels;
+    private boolean alpha = false;
 
     @SneakyThrows
     public Image(String path) {

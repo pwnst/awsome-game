@@ -2,11 +2,21 @@ package engine;
 
 import engine.gfx.Font;
 import engine.gfx.Image;
+import engine.gfx.ImageRequest;
 import engine.gfx.ImageTile;
+import lombok.Data;
 
 import java.awt.image.DataBufferInt;
+import java.util.ArrayList;
+import java.util.List;
 
+import static java.util.Comparator.comparingInt;
+import static java.util.stream.Collectors.toList;
+
+@Data
 public class Renderer {
+
+    private Font font = Font.FONT;
 
     private int pixelWidth;
 
@@ -16,9 +26,11 @@ public class Renderer {
 
     private int[] zBuffer;
 
+    private List<ImageRequest> imageRequests = new ArrayList<>();
+
     private int zDepth = 0;
 
-    private Font font = Font.FONT;
+    private boolean processing = false;
 
     public Renderer(GameContainer gc) {
         this.pixelWidth = gc.getWidth();
@@ -34,25 +46,47 @@ public class Renderer {
         }
     }
 
+    public void process() {
+        processing = true;
+        imageRequests = imageRequests.stream()
+                .sorted(comparingInt(ImageRequest::getZDepth))
+                .collect(toList());
+
+        for (int i = 0; i < imageRequests.size(); i++) {
+            ImageRequest imageRequest = imageRequests.get(i);
+            System.out.println(imageRequest.getZDepth());
+            setZDepth(imageRequest.getZDepth());
+            drawImage(imageRequest.getImage(), imageRequest.getOffX(), imageRequest.getOffY());
+
+            imageRequests.clear();
+        }
+        processing = false;
+    }
+
     public void setPixel(int x, int y, int value) {
         int alpha = (value >> 24) & 0xff;
         if (x < 0 || x >= pixelWidth || y < 0 || y >= pixelHieght || alpha == 0) {
             return;
         }
 
-        if (zBuffer[y * pixelWidth + x] > zDepth) {
+        int index = y * pixelWidth + x;
+
+        if (zBuffer[index] > zDepth) {
             return;
         }
+
+        zBuffer[index] = zDepth;
+
         if (alpha == 255) {
-            pixels[y * pixelWidth + x] = value;
+            pixels[index] = value;
         } else {
-            int pixelColor = pixels[y * pixelWidth + x];
+            int pixelColor = pixels[index];
 
-            int newRed = (pixelColor >> 16) & 0xff - (int) (((pixelColor >> 16) & 0xff - (value >> 16) & 0xff) * (alpha / 255f));
-            int newGreen = (pixelColor >> 8) & 0xff - (int) (((pixelColor >> 8) & 0xff - (value >> 8) & 0xff) * (alpha / 255f));
-            int newBlue = (pixelColor & 0xff) - (int) (((pixelColor & 0xff) - (value & 0xff) * (alpha / 255f)));
+            int newRed = ((pixelColor >> 16) & 0xff) - (int) ((((pixelColor >> 16) & 0xff) - ((value >> 16) & 0xff)) * (alpha / 255f));
+            int newGreen = ((pixelColor >> 8) & 0xff) - (int) ((((pixelColor >> 8) & 0xff) - ((value >> 8) & 0xff)) * (alpha / 255f));
+            int newBlue = (pixelColor & 0xff) - (int) (((pixelColor & 0xff) - (value & 0xff)) * (alpha / 255f));
 
-            pixels[y * pixelWidth + x] = (255 << 24 | newRed << 16 | newGreen << 8 | newBlue);
+            pixels[index] = (255 << 24 | newRed << 16 | newGreen << 8 | newBlue);
         }
 
     }
@@ -75,6 +109,11 @@ public class Renderer {
     }
 
     public void drawImage(Image image, int offX, int offY) {
+
+        if (image.isAlpha() && !processing) {
+            imageRequests.add(new ImageRequest(image, zDepth, offX, offY));
+            return;
+        }
 
         // don't render
         if (offX < -image.getWidth()) {

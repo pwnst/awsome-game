@@ -22,8 +22,10 @@ public class GameManager extends AbstractGame {
     private double tmp = 0;
 
     public GameManager() {
-        image = new Image("/test.png");
+        image = new Image("/test_ab.png");
+        image.setAlpha(true);
         image2 = new Image("/test_ab.png");
+        image2.setAlpha(true);
         imageTile = new ImageTile("/tile_test.png", 16, 16);
         soundClip = new SoundClip("/reload.wav");
     }
@@ -42,8 +44,8 @@ public class GameManager extends AbstractGame {
 
     @Override
     public void render(GameContainer gc, Renderer renderer) {
-        renderer.drawImage(image, 30, 30);
         renderer.drawImage(image2, gc.getInput().getMouseX(), gc.getInput().getMouseY());
+        renderer.drawImage(image, 30, 30);
 //        renderer.drawImageTile(imageTile, gc.getInput().getMouseX() - 16, gc.getInput().getMouseY() - 16, (int)tmp, 0);
 //        renderer.drawRect(30, 30, 30, 30, 0xffffffff);
 //        renderer.drawFillRect(gc.getInput().getMouseX() - 10, gc.getInput().getMouseY() - 10, 320, 240, 0xffcccccc);
