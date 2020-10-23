@@ -1,4 +1,4 @@
-package engine;
+package v02.engine;
 
 import lombok.Data;
 import lombok.SneakyThrows;
@@ -31,7 +31,6 @@ public class GameContainer implements Runnable {
         thread = new Thread(this);
         input = new Input(this);
         renderer = new Renderer(this);
-
         thread.run();
     }
 
@@ -53,7 +52,7 @@ public class GameContainer implements Runnable {
         int fps = 0;
 
         while (isRunning) {
-            render = false;
+            render = true;
             firstTime = System.nanoTime() / 1_000_000_000.0;
             passedTime = firstTime - lastTime;
             lastTime = firstTime;
@@ -78,8 +77,6 @@ public class GameContainer implements Runnable {
             if (render) {
                 renderer.clear();
                 game.render(this, renderer);
-                renderer.process();
-                renderer.drawText("FPS: " + fps, 5, 5, 0xffffffff);
                 window.update();
                 frames++;
             } else {
