@@ -2,6 +2,8 @@ package v02.engine;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import v02.game.Camera;
+import v02.game.GameMap;
 
 @Data
 public class GameContainer implements Runnable {
@@ -11,11 +13,12 @@ public class GameContainer implements Runnable {
     private Renderer renderer;
     private Input input;
     private AbstractGame game;
+    private Camera camera;
 
     private boolean isRunning = false;
     private int width = 320;
     private int height = 240;
-    private int scale = 2;
+    private int scale = 4;
     private String title = "TTT";
 
     private final double UPDATE_CAP = 1.0 / 60.0;
@@ -31,6 +34,7 @@ public class GameContainer implements Runnable {
         thread = new Thread(this);
         input = new Input(this);
         renderer = new Renderer(this);
+        camera = new Camera(8, 8, 0, 0, new GameMap("map01"), this, renderer);
         thread.run();
     }
 
@@ -52,7 +56,7 @@ public class GameContainer implements Runnable {
         int fps = 0;
 
         while (isRunning) {
-            render = true;
+            render = false;
             firstTime = System.nanoTime() / 1_000_000_000.0;
             passedTime = firstTime - lastTime;
             lastTime = firstTime;
@@ -70,6 +74,7 @@ public class GameContainer implements Runnable {
                 if (frameTime > 1.0) {
                     frameTime = 0;
                     fps = frames;
+                    System.out.println("FPS: " + fps);
                     frames = 0;
                 }
             }
