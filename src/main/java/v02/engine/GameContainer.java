@@ -74,7 +74,7 @@ public class GameContainer implements Runnable {
                 if (frameTime > 1.0) {
                     frameTime = 0;
                     fps = frames;
-                    System.out.println("FPS: " + fps);
+//                    System.out.println("FPS: " + fps);
                     frames = 0;
                 }
             }

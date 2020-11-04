@@ -18,13 +18,11 @@ public class Image {
 
     @SneakyThrows
     public Image(String path) {
-
         BufferedImage image = ImageIO.read(Image.class.getResourceAsStream(path));
-
         width = image.getWidth();
         height = image.getHeight();
+        frames = 1;
         pixels = image.getRGB(0, 0, width, height, null, 0, width);
-
         image.flush();
     }
 
@@ -34,6 +32,6 @@ public class Image {
     }
 
     public boolean isAnimated() {
-        return frames > 0;
+        return frames > 1;
     }
 }
