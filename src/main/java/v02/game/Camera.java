@@ -58,7 +58,7 @@ public class Camera {
             y += yV;
         }
 
-        gameMap.getPlayer().update();
+        gameMap.update();
     }
 
 

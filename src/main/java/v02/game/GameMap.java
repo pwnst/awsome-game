@@ -19,6 +19,7 @@ public class GameMap {
     private int tileSize;
     private int[][] map;
     private Obj player;
+    private int framePosition = 0;
 
 
     @SneakyThrows
@@ -61,7 +62,20 @@ public class GameMap {
             }
         }
 
-        renderer.drawImage(player.getImage(), player.getMapX() - cameraX, player.getMapY() - cameraY);
+        player.draw(renderer, cameraX, cameraY);
+    }
+
+    public void update() {
+        updateFramePosition();
+        player.update(this);
+    }
+
+    private void updateFramePosition() {
+        if (framePosition < 60) {
+            framePosition += 1;
+        } else {
+            framePosition = 0;
+        }
     }
 
     public int mapToColor(int i) {

@@ -34,7 +34,7 @@ public class GameContainer implements Runnable {
         thread = new Thread(this);
         input = new Input(this);
         renderer = new Renderer(this);
-        camera = new Camera(8, 8, 0, 0, new GameMap(renderer, "map01"), this);
+        camera = new Camera(8, 8, 0, 0, new GameMap(renderer, "map02"), this);
         thread.run();
     }
 
@@ -68,7 +68,7 @@ public class GameContainer implements Runnable {
                 render = true;
                 unprocessedTime -= UPDATE_CAP;
 
-                game.update(this, UPDATE_CAP);
+                game.update(this);
                 input.update();
 
                 if (frameTime > 1.0) {

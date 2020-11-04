@@ -43,14 +43,14 @@ public class Renderer {
         int imageWidth = image.getWidth() / image.getFrames();
         int imageHeight = image.getHeight();
 
-        int xStart = max(offX + imageWidth * frame, 0);
-        int xEnd = min(imageWidth * frame + imageWidth + offX, pixelWidth);
+        int xStart = max(offX, 0);
+        int xEnd = min(imageWidth + offX, pixelWidth);
         int yStart = max(offY, 0);
         int yEnd = min(imageHeight + offY, pixelHeight);
 
         for (int x = xStart; x < xEnd; x++) {
             for (int y = yStart; y < yEnd; y++) {
-                int imagePixelIndex = (y - offY) * image.getWidth() + (x - offX);
+                int imagePixelIndex = (y - offY) * image.getWidth() + (x - offX + imageWidth * frame);
                 int currentPixelValue = image.getPixels()[imagePixelIndex];
                 setPixel(x, y, currentPixelValue);
             }
@@ -68,35 +68,5 @@ public class Renderer {
                 setPixel(x, y, color);
             }
         }
-    }
-
-    public int mapToColor(int i) {
-        switch (i) {
-            case 1:
-                return 0xff00ff00;
-            case 2:
-                return 0xff808b96;
-            case 3:
-                return 0xffa569bd;
-            default:
-                return 0xffffffff;
-        }
-    }
-
-    public void drawMap(int offX, int offY, int[][] map, int tileSize) {
-        int[][] colorMap = Arrays.stream(map)
-                .map(row -> Arrays.stream(row).map(this::mapToColor).toArray())
-                .toArray(int[][]::new);
-
-        for (int x = 0; x < pixelWidth; x++) {
-            for (int y = 0; y < pixelHeight; y++) {
-                setPixel(x, y, colorMap[(x + offX) / tileSize][(y + offY) / tileSize]);
-            }
-        }
-    }
-
-
-    public static void main(String[] args) {
-        System.out.println(11 / 10);
     }
 }

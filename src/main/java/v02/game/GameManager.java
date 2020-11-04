@@ -13,14 +13,13 @@ import static java.awt.event.KeyEvent.VK_A;
 public class GameManager extends AbstractGame {
 
     private SoundClip soundClip;
-    private double tmp = 0;
 
     public GameManager() {
         soundClip = new SoundClip("/reload.wav");
     }
 
     @Override
-    public void update(GameContainer gc, double gt) {
+    public void update(GameContainer gc) {
         Camera camera = gc.getCamera();
         if (gc.getInput().isButtonDown(MouseEvent.BUTTON1)) {
             soundClip.play();
@@ -36,14 +35,6 @@ public class GameManager extends AbstractGame {
             System.out.println("A is Pressed");
         }
 
-
-
-
-        tmp += gt * 20;
-
-        if (tmp > 4) {
-            tmp = 0;
-        }
         camera.update();
     }
 
