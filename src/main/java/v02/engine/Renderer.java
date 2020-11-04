@@ -6,7 +6,6 @@ import v02.engine.gfx.Image;
 
 import java.awt.image.DataBufferInt;
 import java.util.Arrays;
-import java.util.Map;
 
 import static java.lang.Math.max;
 import static java.lang.Math.min;
@@ -37,10 +36,17 @@ public class Renderer {
     }
 
     public void drawImage(Image image, int offX, int offY) {
-        int xStart = max(offX, 0);
-        int xEnd = min(image.getWidth() + offX, pixelWidth);
+        drawImage(image, offX, offY, 0);
+    }
+
+    public void drawImage(Image image, int offX, int offY, int frame) {
+        int imageWidth = image.getWidth() / image.getFrames();
+        int imageHeight = image.getHeight();
+
+        int xStart = max(offX + imageWidth * frame, 0);
+        int xEnd = min(imageWidth * frame + imageWidth + offX, pixelWidth);
         int yStart = max(offY, 0);
-        int yEnd = min(image.getHeight() + offY, pixelHeight);
+        int yEnd = min(imageHeight + offY, pixelHeight);
 
         for (int x = xStart; x < xEnd; x++) {
             for (int y = yStart; y < yEnd; y++) {
@@ -89,59 +95,6 @@ public class Renderer {
         }
     }
 
-//    public void drawImageTile(ImageTile image, int offX, int offY, int tileX, int tileY) {
-//
-//        // don't render
-//        if (offX < -image.getTileWidth()) {
-//            return;
-//        }
-//
-//        if (offX >= pixelWidth) {
-//            return;
-//        }
-//
-//        if (offY < -image.getTileHeight()) {
-//            return;
-//        }
-//
-//        if (offY >= pixelHeight) {
-//            return;
-//        }
-//
-//        int newX = 0;
-//        int newY = 0;
-//        int newImageWidth = image.getTileWidth();
-//        int newImageHeight = image.getTileHeight();
-//
-//
-//        // clipping
-//        if (offY < 0) {
-//            newY -= offY;
-//        }
-//
-//        if (offX < 0) {
-//            newX -= offX;
-//        }
-//
-//
-//        if (newImageWidth + offX >= pixelWidth) {
-//            newImageWidth = newImageWidth - (newImageWidth + offX - pixelWidth);
-//        }
-//
-//        if (newImageHeight + offY >= pixelHeight) {
-//            newImageHeight = newImageHeight - (newImageHeight + offY - pixelHeight);
-//        }
-//
-//        for (int x = newX; x < newImageWidth; x++) {
-//            for (int y = newY; y < newImageHeight; y++) {
-//                setPixel(
-//                        x + offX,
-//                        y + offY,
-//                        image.getPixels()[(y + tileY * image.getTileHeight()) * image.getWidth() + (x + tileX * image.getTileWidth())]
-//                );
-//            }
-//        }
-//    }
 
     public static void main(String[] args) {
         System.out.println(11 / 10);

@@ -13,8 +13,8 @@ public class Image {
 
     private int width;
     private int height;
+    private int frames;
     private int[] pixels;
-    private boolean alpha = false;
 
     @SneakyThrows
     public Image(String path) {
@@ -26,5 +26,14 @@ public class Image {
         pixels = image.getRGB(0, 0, width, height, null, 0, width);
 
         image.flush();
+    }
+
+    public Image(String path, int frames) {
+        this(path);
+        this.frames = frames;
+    }
+
+    public boolean isAnimated() {
+        return frames > 0;
     }
 }

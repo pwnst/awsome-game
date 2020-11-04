@@ -2,9 +2,12 @@ package v02.game;
 
 import lombok.Data;
 import lombok.SneakyThrows;
+import v02.engine.Renderer;
+import v02.engine.gfx.Image;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
@@ -12,13 +15,15 @@ import static java.util.Objects.requireNonNull;
 @Data
 public class GameMap {
 
+    private Renderer renderer;
     private int tileSize;
     private int[][] map;
     private Obj player;
 
 
     @SneakyThrows
-    public GameMap(String path) {
+    public GameMap(Renderer renderer, String path) {
+        this.renderer = renderer;
         tileSize = 10;
         BufferedReader bufferedReader = new BufferedReader(
                 new InputStreamReader(
@@ -42,6 +47,33 @@ public class GameMap {
             }
         }
 
-        player = new Obj("/numi1.png", 10, 10);
+        player = new Obj(new Image("/obj/player/player01_walk.png", 5), 30, 30);
+    }
+
+    public void draw(int cameraX, int cameraY) {
+        int[][] colorMap = Arrays.stream(map)
+                .map(row -> Arrays.stream(row).map(this::mapToColor).toArray())
+                .toArray(int[][]::new);
+
+        for (int x = 0; x < renderer.getPixelWidth(); x++) {
+            for (int y = 0; y < renderer.getPixelHeight(); y++) {
+                renderer.setPixel(x, y, colorMap[(x + cameraX) / tileSize][(y + cameraY) / tileSize]);
+            }
+        }
+
+        renderer.drawImage(player.getImage(), player.getMapX() - cameraX, player.getMapY() - cameraY);
+    }
+
+    public int mapToColor(int i) {
+        switch (i) {
+            case 1:
+                return 0xff00ff00;
+            case 2:
+                return 0xff808b96;
+            case 3:
+                return 0xffa569bd;
+            default:
+                return 0xffffffff;
+        }
     }
 }

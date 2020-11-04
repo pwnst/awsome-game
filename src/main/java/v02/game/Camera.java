@@ -14,16 +14,9 @@ public class Camera {
     private int yV;
     private GameMap gameMap;
     private GameContainer gameContainer;
-    private Renderer renderer;
 
     public void display() {
-        renderer.drawMap(x, y, gameMap.getMap(), gameMap.getTileSize());
-
-        Obj player = gameMap.getPlayer();
-        int playerX = player.getMapX();
-        int playerY = player.getMapY();
-
-        renderer.drawImage(player.getImage(), playerX - x, playerY - y);
+        gameMap.draw(x, y);
     }
 
     public int getMapXCoord(int cursorX) {

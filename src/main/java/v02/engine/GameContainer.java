@@ -34,7 +34,7 @@ public class GameContainer implements Runnable {
         thread = new Thread(this);
         input = new Input(this);
         renderer = new Renderer(this);
-        camera = new Camera(8, 8, 0, 0, new GameMap("map01"), this, renderer);
+        camera = new Camera(8, 8, 0, 0, new GameMap(renderer, "map01"), this);
         thread.run();
     }
 

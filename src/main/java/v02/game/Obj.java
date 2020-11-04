@@ -16,8 +16,8 @@ public class Obj {
 
     private Image image;
 
-    public Obj(String path, int mapX, int mapY) {
-        this.image = new Image(path);
+    public Obj(Image image, int mapX, int mapY) {
+        this.image = image;
 
         this.mapX = mapX;
         this.mapY = mapY;

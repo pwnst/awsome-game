@@ -5,8 +5,6 @@ import v02.engine.AbstractGame;
 import v02.engine.GameContainer;
 import v02.engine.Renderer;
 import v02.engine.audio.SoundClip;
-import v02.engine.gfx.Image;
-import v02.engine.gfx.ImageTile;
 
 import java.awt.event.MouseEvent;
 
@@ -14,18 +12,10 @@ import static java.awt.event.KeyEvent.VK_A;
 
 public class GameManager extends AbstractGame {
 
-    private Image image;
-    private Image image2;
     private SoundClip soundClip;
-    private ImageTile imageTile;
     private double tmp = 0;
 
     public GameManager() {
-        image = new Image("/test_ab.png");
-        image.setAlpha(true);
-        image2 = new Image("/test_ab.png");
-        image2.setAlpha(true);
-        imageTile = new ImageTile("/tile_test.png", 16, 16);
         soundClip = new SoundClip("/reload.wav");
     }
 
