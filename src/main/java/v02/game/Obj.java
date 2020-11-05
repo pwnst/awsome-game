@@ -107,9 +107,9 @@ public class Obj {
     public void setTargetLocation(int x, int y) {
         int xOffSet = moveBoxSide / 2;
         int yOffSet = moveBoxSide / 2;
-        buildPath(x - xOffSet, y - yOffSet);
-//        this.targetX = x - xOffSet;
-//        this.targetY = y - yOffSet;
+//        buildPath(x - xOffSet, y - yOffSet);
+        this.targetX = x - xOffSet;
+        this.targetY = y - yOffSet;
     }
 
     public boolean isMoving() {
