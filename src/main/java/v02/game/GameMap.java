@@ -49,15 +49,7 @@ public class GameMap {
             }
         }
 
-        collisionMap = new int[map.length * tileSize][map[0].length * tileSize];
-        for (int x = 0; x < map.length * tileSize; x++) {
-            for (int y = 0; y < map[0].length * tileSize; y++) {
-                collisionMap[x][y] = map[x / tileSize][y / tileSize];
-            }
-        }
-
-//        player = new Obj(new Image("/obj/player/player01_walk.png", 5), 30, 30);
-        player = new Obj(collisionMap, new Image("/collision_test.png", 1), 30, 30);
+        player = new Obj(map, new Image("/tile10_unit.png", 1), 1, 1);
     }
 
     public void draw(int cameraX, int cameraY) {

@@ -6,7 +6,7 @@ import v02.engine.gfx.Image;
 import v02.engine.util.Point;
 
 @Data
-public class Obj {
+public class Obj2 {
 
     private int currentX;
     private int currentY;
@@ -23,7 +23,7 @@ public class Obj {
     private Image image;
     private int moveBoxSide;
 
-    public Obj(int[][] map, Image image, int mapX, int mapY) {
+    public Obj2(int[][] map, Image image, int mapX, int mapY) {
         this.map = map;
         this.image = image;
         this.moveBoxSide = image.isAnimated()
@@ -41,11 +41,11 @@ public class Obj {
 
 
     public void setTargetLocation(int x, int y) {
-//        int xOffSet = moveBoxSide / 2;
-//        int yOffSet = moveBoxSide / 2;
+        int xOffSet = moveBoxSide / 2;
+        int yOffSet = moveBoxSide / 2;
 //        buildPath(x - xOffSet, y - yOffSet);
-//        this.targetX = x - xOffSet;
-//        this.targetY = y - yOffSet;
+        this.targetX = x - xOffSet;
+        this.targetY = y - yOffSet;
     }
 
     public boolean isMoving() {
@@ -59,7 +59,7 @@ public class Obj {
 
     public void draw(Renderer renderer, int cameraX, int cameraY) {
         int frame = isMoving() && isAnimated() ? getFrame() : 0;
-        renderer.drawImage(image, currentX * 10 - cameraX, currentY * 10 - cameraY, frame);
+        renderer.drawImage(image, currentX - cameraX, currentY - cameraY, frame);
     }
 
     private int getFrame() {
@@ -67,11 +67,11 @@ public class Obj {
     }
 
     public void update() {
-//        if (isAnimated() && isMoving() && framePosition < 60) {
-//            framePosition += 1;
-//        } else {
-//            framePosition = 0;
-//        }
+        if (isAnimated() && isMoving() && framePosition < 60) {
+            framePosition += 1;
+        } else {
+            framePosition = 0;
+        }
 
         int newX = currentX;
         int newY = currentY;
