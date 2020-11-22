@@ -34,17 +34,17 @@ public class Camera {
         int mouseX = gameContainer.getInput().getMouseX();
         int mouseY = gameContainer.getInput().getMouseY();
 
-        if (mouseX > centerX + 80) {
+        if (mouseX > centerX + 120) {
             xV = 4;
-        } else if (mouseX < centerX - 80) {
+        } else if (mouseX < centerX - 120) {
             xV = -4;
         } else {
             xV = 0;
         }
 
-        if (mouseY > centerY + 60) {
+        if (mouseY > centerY + 90) {
             yV = 4;
-        } else if (mouseY < centerY - 60) {
+        } else if (mouseY < centerY - 90) {
             yV = -4;
         } else {
             yV = 0;

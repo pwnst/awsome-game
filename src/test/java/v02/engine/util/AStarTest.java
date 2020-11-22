@@ -5,6 +5,7 @@ import v02.engine.util.AStar.PointA;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -13,6 +14,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static v02.engine.util.AStar.getPath;
 
 class AStarTest {
+
+    @Test
+    void testPath1() {
+        int[][] map = readMap("map02long");
+        PointA start = new PointA(1, 1);
+        PointA end = new PointA(19, 24);
+
+        int s = Instant.now().getNano();
+        List<PointA> path = getPath(start, end, map);
+        System.out.println(Instant.now().getNano() - s);
+//        118034000
+//        99005000
+//        23464000
+    }
 
     @Test
     void testPath() {
